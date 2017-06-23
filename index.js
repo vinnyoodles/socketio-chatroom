@@ -14,43 +14,8 @@ router.get('/', function(req, res) {
 
 websocket.on('connection', function(socket) {
   // when the client emits 'new message', this listens and executes
-  socket.on('new message', (data) => onMessage(data, socket));
-
-  // when the client emits 'add user', this listens and executes
-  socket.on('add user', (username) => addedUser(username, socket));
-
-  // when the client emits 'typing', we broadcast it to others
-  socket.on('typing', () => startedTyping(socket));
-
-  // when the client emits 'stop typing', we broadcast it to others
-  socket.on('stop typing', () => stoppedTyping(socket));
+  socket.on('new message', (message) => console.log('Client:', message));
 });
-
-function stoppedTyping(socket) {
-  socket.broadcast.emit('stop typing', {
-    username: socket.username
-  });
-}
-
-function startedTyping(socket) {
-  socket.broadcast.emit('typing', {
-    username: socket.username
-  });
-}
-
-function addedUser(username, socket) {
-  // we store the username in the socket session for this client
-  socket.username = username;
-  socket.emit('login');
-  // echo globally (all clients) that a person has connected
-  socket.broadcast.emit('user joined', {
-    username: socket.username
-  });
-}
-
-function onMessage(message, socket) {
-  console.log('Client:', message);
-}
 
 // Allow the server to participate in the chatroom through stdin.
 var stdin = process.openStdin();

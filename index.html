@@ -40,7 +40,6 @@
       var $currentInput;
 
       var socket = io('https://6deb8a2c.ngrok.io');
-      socket.emit('add user', username);
 
       // Sends a chat message
       function sendMessage() {
@@ -125,9 +124,6 @@
 
       socket.on('reconnect', function () {
         log('you have been reconnected');
-        if (username) {
-          socket.emit('add user', username);
-        }
       });
 
       socket.on('reconnect_error', function () {
