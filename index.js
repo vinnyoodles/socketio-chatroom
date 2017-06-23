@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
 
 websocket.on('connection', function(socket) {
   // when the client emits 'new message', this listens and executes
-  socket.on('new message', (message) => console.log('Client:', message));
+  socket.on('new message', (message) => console.log('\nClient:', message));
 });
 
 // Allow the server to participate in the chatroom through stdin.
