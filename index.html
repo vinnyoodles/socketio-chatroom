@@ -36,7 +36,6 @@
 
       // Prompt for setting a username
       var username = 'me';
-      var connected = false;
       var $currentInput;
 
       var socket = io('https://6deb8a2c.ngrok.io');
@@ -47,7 +46,7 @@
         // Prevent markup from being injected into the message
         message = cleanInput(message);
         // if there is a non-empty message and a socket connection
-        if (message && connected) {
+        if (message) {
           $inputMessage.val('');
           addChatMessage({
             username: username,
@@ -98,7 +97,7 @@
           $currentInput.focus();
         }
         // When the client hits ENTER on their keyboard
-        if (event.which === 13) sendMessage();
+        if (event.keyCode === 13) sendMessage();
       });
 
       // Focus input when clicking on the message input's border
@@ -107,11 +106,6 @@
       });
 
       // Socket events
-
-      // Whenever the server emits 'login', log the login message
-      socket.on('login', function (data) {
-        connected = true;
-      });
 
       // Whenever the server emits 'new message', update the chat body
       socket.on('new message', function (data) {
